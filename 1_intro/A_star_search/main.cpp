@@ -8,8 +8,10 @@ using std::ifstream;
 using std::istringstream;
 using std::string;
 using std::vector;
+using std::abs;
 
 enum class State {kEmpty, kObstacle};
+
 
 vector<State> ParseLine(string line) {
     istringstream sline(line);
@@ -26,6 +28,7 @@ vector<State> ParseLine(string line) {
     return row;
 }
 
+
 vector<vector<State>> ReadBoardFile(string path) {
   ifstream myfile (path);
   vector<vector<State>> board{};
@@ -39,12 +42,16 @@ vector<vector<State>> ReadBoardFile(string path) {
   return board;
 }
 
+// TODO: Write the Search function stub here.
+
+
 string CellString(State cell) {
   switch(cell) {
     case State::kObstacle: return "⛰️   ";
     default: return "0   "; 
   }
 }
+
 
 void PrintBoard(const vector<vector<State>> board) {
   for (int i = 0; i < board.size(); i++) {
@@ -55,7 +62,11 @@ void PrintBoard(const vector<vector<State>> board) {
   }
 }
 
+
 int main() {
+  // TODO: Declare "init" and "goal" arrays with values {0, 0} and {4, 5} respectively.
   auto board = ReadBoardFile("1.board");
+  // TODO: Call Search with "board", "init", and "goal". Store the results in the variable "solution".
+  // TODO: Change the following line to pass "solution" to PrintBoard.
   PrintBoard(board);
 }
