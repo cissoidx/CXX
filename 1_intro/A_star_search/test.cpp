@@ -1,3 +1,11 @@
+void PrintVector(vector<int> v) {
+  cout << "{ ";
+  for (auto item : v) {
+    cout << item << " ";
+  }
+  cout << "}" << "\n";
+}
+
 void PrintVectorOfVectors(vector<vector<int>> v) {
   for (auto row : v) {
     cout << "{ ";
@@ -47,11 +55,11 @@ void TestAddToOpen() {
   vector<vector<int>> open{{0, 0, 2, 9}, {1, 0, 2, 2}, {2, 0, 2, 4}};
   vector<vector<int>> solution_open = open; 
   solution_open.push_back(vector<int>{3, 0, 5, 7});
-vector<vector<State>> grid{{State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+  vector<vector<State>> grid{{State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
                             {State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
                             {State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
-                            {State::kClosed, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
-                            {State::kClosed, State::kClosed, State::kEmpty, State::kEmpty, State::kObstacle, State::kEmpty}};
+                            {State::kEmpty, State::kObstacle, State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty},
+                            {State::kEmpty, State::kEmpty, State::kEmpty, State::kEmpty, State::kObstacle, State::kEmpty}};
   vector<vector<State>> solution_grid = grid;
   solution_grid[3][0] = State::kClosed;
   AddToOpen(x, y, g, h, open, grid);
@@ -71,6 +79,37 @@ vector<vector<State>> grid{{State::kClosed, State::kObstacle, State::kEmpty, Sta
     cout << "\n";
     cout << "Solution grid is: " << "\n";
     PrintVectorOfVectors(solution_grid);
+    cout << "\n";
+  } else {
+    cout << "passed" << "\n";
+  }
+  return;
+}
+
+void TestCompare() {
+  cout << "----------------------------------------------------------" << "\n";
+  cout << "Compare Function Test: ";
+  vector<int> test_1 {1, 2, 5, 6};
+  vector<int> test_2 {1, 3, 5, 7};
+  vector<int> test_3 {1, 2, 5, 8};
+  vector<int> test_4 {1, 3, 5, 7};
+  if (Compare(test_1, test_2)) {
+    cout << "failed" << "\n";
+    cout << "\n" << "a = ";
+    PrintVector(test_1);
+    cout << "b = ";
+    PrintVector(test_2);
+    cout << "Compare(a, b): " << Compare(test_1, test_2) << "\n";
+    cout << "Correct answer: 0" << "\n";
+    cout << "\n";
+  } else if (!Compare(test_3, test_4)) {
+    cout << "failed" << "\n";
+    cout << "\n" << "a = ";
+    PrintVector(test_3);
+    cout << "b = ";
+    PrintVector(test_4);
+    cout << "Compare(a, b): " << Compare(test_3, test_4) << "\n";
+    cout << "Correct answer: 1" << "\n";
     cout << "\n";
   } else {
     cout << "passed" << "\n";
