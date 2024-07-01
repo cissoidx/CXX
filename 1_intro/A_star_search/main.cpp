@@ -70,6 +70,18 @@ int Heuristic(int x1, int y1, int x2, int y2) {
 
 
 /** 
+ * Check that a cell is valid: on the grid, not an obstacle, and clear. 
+ */
+bool CheckValidCell(int x, int y, vector<vector<State>> &grid) {
+  bool on_grid_x = (x >= 0 && x < grid.size());
+  bool on_grid_y = (y >= 0 && y < grid[0].size());
+  if (on_grid_x && on_grid_y)
+    return grid[x][y] == State::kEmpty;
+  return false;
+}
+
+
+/** 
  * Add a node to the open list and mark it as open. 
  */
 void AddToOpen(int x, int y, int g, int h, vector<vector<int>> &openlist, vector<vector<State>> &grid) {
@@ -148,4 +160,5 @@ int main() {
   TestAddToOpen();
   TestCompare();
   TestSearch();
+  TestCheckValidCell();
 }
