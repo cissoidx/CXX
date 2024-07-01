@@ -1,3 +1,4 @@
+#include <algorithm>  // for sort
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -6,11 +7,12 @@
 using std::cout;
 using std::ifstream;
 using std::istringstream;
+using std::sort;
 using std::string;
 using std::vector;
 using std::abs;
 
-enum class State {kEmpty, kObstacle, kClosed};
+enum class State {kEmpty, kObstacle, kClosed, kPath};
 
 
 vector<State> ParseLine(string line) {
@@ -53,6 +55,14 @@ bool Compare(const vector<int> a, const vector<int> b) {
 }
 
 
+/**
+ * Sort the two-dimensional vector of ints in descending order.
+ */
+void CellSort(vector<vector<int>> *v) {
+  sort(v->begin(), v->end(), Compare);
+}
+
+
 // Calculate the manhattan distance
 int Heuristic(int x1, int y1, int x2, int y2) {
   return abs(x2 - x1) + abs(y2 - y1);
@@ -83,13 +93,34 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
   int h = Heuristic(x, y, goal[0],goal[1]);
   AddToOpen(x, y, g, h, open, grid);
 
+  while (open.size() > 0) {
+    // Get the next node
+    CellSort(&open);
+    auto current = open.back();
+    open.pop_back();
+    x = current[0];
+    y = current[1];
+    grid[x][y] = State::kPath;
+
+    // Check if we're done.
+    if (x == goal[0] && y == goal[1]) {
+      return grid;
+    }
+    
+    // If we're not done, expand search to current node's neighbors.
+    // ExpandNeighbors
+  }
+  
+  // We've run out of new nodes to explore and haven't found a path.
   cout << "No path found!" << "\n";
   return std::vector<vector<State>>{};
 }
 
+
 string CellString(State cell) {
   switch(cell) {
     case State::kObstacle: return "⛰️   ";
+    case State::kPath: return "🚗   ";
     default: return "0   "; 
   }
 }
@@ -116,4 +147,5 @@ int main() {
   TestHeuristic();
   TestAddToOpen();
   TestCompare();
+  TestSearch();
 }
