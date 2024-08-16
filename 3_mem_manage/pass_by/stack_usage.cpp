@@ -1,18 +1,18 @@
 #include <stdio.h>
     
-void CallByValue(int i)
+void CallByValue(long double i)
 {
     int j = 1; 
     printf ("call-by-value: \t\t%p\n",&j);
 }
 
-void CallByPointer(int *i)
+void CallByPointer(long double *i)
 {
     int j = 1; 
     printf ("call-by-pointer: \t%p\n",&j);
 }
 
-void CallByReference(int &i)
+void CallByReference(long double &i)
 {
     int j = 1; 
     printf ("call-by-reference: \t%p\n",&j);
@@ -20,7 +20,7 @@ void CallByReference(int &i)
 
 int main()
 {
-    int i = 0;
+    long double i = 0;
     printf ("stack bottom: \t\t%p\n",&i);
     
     CallByValue(i);
