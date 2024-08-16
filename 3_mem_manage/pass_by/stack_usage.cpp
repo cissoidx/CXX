@@ -1,31 +1,31 @@
 #include <stdio.h>
     
-void CallByValue(long i)
+void CallByValue(int i)
 {
-    long j = 1; 
+    int j = 1; 
     printf ("call-by-value: \t\t%p\n",&j);
 }
 
-void CallByPolonger(long *i)
+void CallByPointer(int *i)
 {
-    long j = 1; 
-    printf ("call-by-polonger: \t%p\n",&j);
+    int j = 1; 
+    printf ("call-by-pointer: \t%p\n",&j);
 }
 
-void CallByReference(long &i)
+void CallByReference(int &i)
 {
-    long j = 1; 
+    int j = 1; 
     printf ("call-by-reference: \t%p\n",&j);
 }
 
 int main()
 {
-    long i = 0;
+    int i = 0;
     printf ("stack bottom: \t\t%p\n",&i);
     
     CallByValue(i);
 
-    CallByPolonger(&i);
+    CallByPointer(&i);
 
     CallByReference(i);
 
