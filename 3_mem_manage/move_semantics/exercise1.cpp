@@ -38,7 +38,7 @@ int main()
 
     // SOLUTION to exercise 1-1
     vector<int> *random_numbers_1 = RandomNumbers1(); // return-by-pointer
-     delete random_numbers_1;
+    delete random_numbers_1;
 
     /* EXERCISE 1-2: Get access to data using pass-by-reference */
     // store the data in a suitable variable named 'random_numbers_2'
