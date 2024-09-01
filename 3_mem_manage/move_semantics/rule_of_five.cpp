@@ -96,7 +96,7 @@ int main()
     MyMovableClass obj2 = MyMovableClass(200);
     // by passing an object to std::move we can force the compiler to use move semantics,
     // either in the form of move constructor or the move assignment operator
-    useObject(std:: move(obj2));
+    useObject(std::move(obj2));
 
     return 0;
 }
