@@ -58,7 +58,7 @@ int main()
     for (int i = 0; i < 1000; ++i)
     {
         Vehicle v(i);
-        futures.emplace_back(std::async(std::launch::async, &WaitingVehicles::pushBack, queue, std::move(v)));
+        futures.emplace_back(std::async(std::launch::async | std::launch::deferred, &WaitingVehicles::pushBack, queue, std::move(v)));
     }
 
     std::for_each(futures.begin(), futures.end(), [](std::future<void> &ftr) {
