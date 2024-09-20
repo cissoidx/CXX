@@ -9,7 +9,7 @@ class Vehicle
 {
 public:
     Vehicle(int id) : _id(id) {}
-    int getID(){return _id;}
+    int getID() { return _id; }
 
 private:
     int _id;
@@ -31,18 +31,20 @@ public:
     // typical behaviour methods
     void pushBack(Vehicle &&v)
     {
-        while (1){
-            for (size_t i=0; i<3; ++i){
-                if (_mutex.try_lock_for(std::chrono::milliseconds(1))){
-                    _vehicles.emplace_back(std::move(v)); // data race would cause an exception
-                    std::this_thread::sleep_for(std::chrono::milliseconds(3));
-                    _mutex.unlock();
-                    return;
-                } else {
-                    std::cout << "trial failed for id " << v.getID() << std::endl;
-                }
+        for (size_t i = 0; i < 3; ++i)
+        {
+            if (_mutex.try_lock_for(std::chrono::milliseconds(100)))
+            {
+                _vehicles.emplace_back(std::move(v));
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                _mutex.unlock();
+                break;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            else
+            {
+                std::cout << "Error! Vehicle #" << v.getID() << " could not be added to the vector" << std::endl;
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            }
         }
     }
 
@@ -53,12 +55,12 @@ private:
 
 int main()
 {
-    std::shared_ptr<WaitingVehicles> queue(new WaitingVehicles); 
+    std::shared_ptr<WaitingVehicles> queue(new WaitingVehicles);
     std::vector<std::future<void>> futures;
     for (int i = 0; i < 1000; ++i)
     {
         Vehicle v(i);
-        futures.emplace_back(std::async(std::launch::async | std::launch::deferred, &WaitingVehicles::pushBack, queue, std::move(v)));
+        futures.emplace_back(std::async(std::launch::async, &WaitingVehicles::pushBack, queue, std::move(v)));
     }
 
     std::for_each(futures.begin(), futures.end(), [](std::future<void> &ftr) {
