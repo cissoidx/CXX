@@ -69,7 +69,7 @@ int main()
         futures.emplace_back(std::async(std::launch::async, &WaitingVehicles::pushBack, queue, std::move(v)));
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
     std::cout << "Collecting results..." << std::endl;
     while (true)
@@ -79,7 +79,7 @@ int main()
             Vehicle v = queue->popBack();
             std::cout << "   Vehicle #" << v.getID() << " has been removed from the queue" << std::endl;
         }
-        else break;
+        // else break;
     }
 
     std::for_each(futures.begin(), futures.end(), [](std::future<void> &ftr) {
